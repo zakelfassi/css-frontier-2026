@@ -1,0 +1,101 @@
+/* ============================================
+   01 — Scroll-Driven Animations
+   Progress bar + rotating elements tied to scroll.
+   The section IS the demo.
+   ============================================ */
+
+@scope ([data-feature="scroll-driven"]) {
+  :scope {
+    --hue-primary: 260;
+    --hue-accent: 300;
+  }
+
+  /* Progress bar across top of section */
+  .scroll-progress-track {
+    position: sticky;
+    top: 0;
+    height: 4px;
+    background: var(--border-subtle);
+    z-index: 10;
+    border-radius: 2px;
+  }
+
+  .scroll-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+    border-radius: 2px;
+    transform-origin: left;
+    animation: progress-fill linear both;
+    animation-timeline: view(block);
+    animation-range: contain 0% contain 100%;
+  }
+
+  @keyframes progress-fill {
+    from { scale: 0 1; }
+    to { scale: 1 1; }
+  }
+
+  /* Rotating shapes */
+  .scroll-shapes {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: var(--space-xl) 0;
+  }
+
+  .scroll-shape {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    background: var(--accent-muted);
+    border: 2px solid var(--accent);
+    animation: shape-spin linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% exit 100%;
+  }
+
+  @keyframes shape-spin {
+    from {
+      rotate: 0deg;
+      scale: 0.5;
+      border-radius: 12px;
+    }
+    50% {
+      scale: 1;
+      border-radius: 50%;
+    }
+    to {
+      rotate: 360deg;
+      scale: 0.5;
+      border-radius: 12px;
+    }
+  }
+
+  .scroll-shape:nth-child(2) { animation-delay: -0.15s; }
+  .scroll-shape:nth-child(3) { animation-delay: -0.3s; }
+  .scroll-shape:nth-child(4) { animation-delay: -0.45s; }
+  .scroll-shape:nth-child(5) { animation-delay: -0.6s; }
+
+  /* Scale bar demo */
+  .scroll-scale-bar {
+    height: 8px;
+    background: linear-gradient(
+      90deg,
+      oklch(0.7 0.2 280),
+      oklch(0.7 0.2 200),
+      oklch(0.7 0.2 330)
+    );
+    border-radius: 4px;
+    transform-origin: left;
+    animation: bar-grow linear both;
+    animation-timeline: view(block);
+    animation-range: entry 20% contain 50%;
+  }
+
+  @keyframes bar-grow {
+    from { scale: 0 1; opacity: 0.3; }
+    to { scale: 1 1; opacity: 1; }
+  }
+}

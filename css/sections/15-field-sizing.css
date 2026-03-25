@@ -1,0 +1,99 @@
+/* ============================================
+   15 — field-sizing: content
+   Auto-growing textarea and input side-by-side
+   with fixed-size counterparts.
+   ============================================ */
+
+@scope ([data-feature="field-sizing"]) {
+  :scope {
+    --hue-primary: 80;
+    --hue-accent: 110;
+  }
+
+  /* Demo layout */
+  .fs-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  /* Shared field styles */
+  .fs-field--auto,
+  .fs-field--fixed {
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    outline: none;
+    transition:
+      border-color 0.2s var(--ease-out-expo),
+      box-shadow 0.2s var(--ease-out-expo);
+
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    &::placeholder {
+      color: var(--fg-subtle);
+    }
+  }
+
+  /* Auto-sizing field */
+  .fs-field--auto {
+    field-sizing: content;
+    min-height: 2.5em;
+    min-width: 120px;
+    resize: none;
+
+    /* Visual indicator */
+    border-left: 3px solid var(--accent);
+  }
+
+  /* Fixed-size field (comparison) */
+  .fs-field--fixed {
+    height: 120px;
+    resize: vertical;
+
+    border-left: 3px solid var(--fg-subtle);
+  }
+
+  /* Labels for each column */
+  .fs-demo > div {
+    display: grid;
+    gap: var(--space-sm);
+
+    &::before {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: var(--space-2xs) var(--space-sm);
+      border-radius: 4px;
+      width: fit-content;
+    }
+  }
+
+  .fs-demo > div:has(.fs-field--auto)::before {
+    content: "field-sizing: content";
+    background: var(--accent-dim);
+    color: var(--accent-bright);
+  }
+
+  .fs-demo > div:has(.fs-field--fixed)::before {
+    content: "fixed height";
+    background: var(--bg-surface);
+    color: var(--fg-subtle);
+  }
+
+  /* Input variants (single-line) */
+  input.fs-field--auto {
+    min-height: unset;
+  }
+}

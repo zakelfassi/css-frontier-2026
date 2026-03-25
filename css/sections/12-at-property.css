@@ -1,0 +1,119 @@
+/* ============================================
+   12 — @property (Registered Custom Properties)
+   Animated gradients + slider control panel.
+   This powers the entire page's hue system.
+   ============================================ */
+
+@scope ([data-feature="at-property"]) {
+  :scope {
+    --hue-primary: 330;
+    --hue-accent: 30;
+  }
+
+  /* Animated gradient box */
+  .prop-gradient-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    background: linear-gradient(
+      var(--gradient-angle),
+      oklch(0.5 0.2 var(--demo-hue, 270)),
+      oklch(0.7 0.2 calc(var(--demo-hue, 270) + 60)),
+      oklch(0.5 0.2 calc(var(--demo-hue, 270) + 180))
+    );
+
+    /* Animate the angle continuously */
+    animation: gradient-rotate 6s linear infinite;
+    transition: --demo-hue 0.8s var(--ease-out-expo);
+  }
+
+  @keyframes gradient-rotate {
+    from { --gradient-angle: 0deg; }
+    to { --gradient-angle: 360deg; }
+  }
+
+  /* Control panel */
+  .prop-controls {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--bg);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-block-start: var(--space-lg);
+  }
+
+  .prop-control {
+    display: grid;
+    grid-template-columns: 8ch 1fr 4ch;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .prop-control__label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+
+  .prop-control__value {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-align: right;
+  }
+
+  /* Custom range input */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+      transition: scale 0.15s var(--ease-spring);
+    }
+
+    &::-webkit-slider-thumb:hover {
+      scale: 1.2;
+    }
+  }
+
+  /* Smooth number interpolation badge */
+  .prop-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--accent-dim);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-bright);
+    margin-block-start: var(--space-md);
+  }
+
+  .prop-badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; scale: 1; }
+    50% { opacity: 0.5; scale: 0.8; }
+  }
+}

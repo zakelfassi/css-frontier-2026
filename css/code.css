@@ -1,0 +1,69 @@
+/* ============================================
+   Code Display — Highlight.js overrides
+   Uses oklch for syntax colors that shift
+   with the section hue.
+   ============================================ */
+
+/* Override highlight.js background */
+.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Custom syntax theme built on oklch */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: oklch(0.75 0.18 280);
+}
+
+.hljs-string,
+.hljs-attr {
+  color: oklch(0.78 0.15 150);
+}
+
+.hljs-number,
+.hljs-literal {
+  color: oklch(0.78 0.16 60);
+}
+
+.hljs-selector-class,
+.hljs-selector-id {
+  color: oklch(0.8 0.18 200);
+}
+
+.hljs-property,
+.hljs-attribute {
+  color: oklch(0.8 0.14 230);
+}
+
+.hljs-built_in,
+.hljs-function {
+  color: oklch(0.8 0.17 310);
+}
+
+.hljs-comment {
+  color: var(--fg-subtle);
+  font-style: italic;
+}
+
+.hljs-punctuation {
+  color: var(--fg-subtle);
+}
+
+.hljs-tag {
+  color: oklch(0.75 0.15 15);
+}
+
+/* --- Code block scrollbar --- */
+.experiment__code pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.experiment__code pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.experiment__code pre::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}

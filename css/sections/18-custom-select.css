@@ -1,0 +1,137 @@
+/* ============================================
+   18 — Custom <select> (appearance: base-select)
+   Styled native select with custom option layouts.
+   ============================================ */
+
+@scope ([data-feature="custom-select"]) {
+  :scope {
+    --hue-primary: 130;
+    --hue-accent: 160;
+  }
+
+  /* Custom select */
+  .cs-select {
+    appearance: base-select;
+    width: 100%;
+    max-width: 400px;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-elevated);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    transition:
+      border-color 0.2s var(--ease-out-expo),
+      box-shadow 0.2s var(--ease-out-expo);
+
+    &:focus,
+    &:open {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* The dropdown picker */
+    &::picker(select) {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: var(--space-xs);
+      box-shadow:
+        0 12px 40px oklch(0 0 0 / 0.3),
+        0 0 0 1px oklch(1 0 0 / 0.05) inset;
+      overflow: hidden;
+
+      /* Entry animation */
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+      transition:
+        opacity 0.25s var(--ease-out-expo),
+        scale 0.25s var(--ease-out-expo),
+        translate 0.25s var(--ease-out-expo),
+        display 0.25s allow-discrete,
+        overlay 0.25s allow-discrete;
+
+      @starting-style {
+        opacity: 0;
+        scale: 0.95;
+        translate: 0 -8px;
+      }
+    }
+
+    /* Indicator arrow */
+    &::picker-icon {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid var(--fg-muted);
+      border-bottom: 2px solid var(--fg-muted);
+      rotate: 45deg;
+      translate: 0 -2px;
+      transition: rotate 0.2s var(--ease-out-expo);
+    }
+
+    &:open::picker-icon {
+      rotate: -135deg;
+      translate: 0 2px;
+    }
+  }
+
+  /* Custom options */
+  .cs-option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-xs) var(--space-sm);
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 8px;
+    cursor: pointer;
+    transition:
+      background 0.15s var(--ease-out-expo),
+      color 0.15s var(--ease-out-expo);
+
+    &:hover {
+      background: var(--accent-dim);
+    }
+
+    &:checked {
+      background: var(--accent-muted);
+      color: var(--accent-bright);
+    }
+
+    /* Option icon placeholder (first column) */
+    &::before {
+      content: "";
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent-muted), var(--accent-dim));
+      border: 1px solid var(--accent-muted);
+      grid-row: span 2;
+    }
+
+    /* Checkmark for selected */
+    &:checked::before {
+      background: var(--accent);
+      border-color: var(--accent-bright);
+    }
+
+    /* Option title */
+    .cs-option__title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--fg);
+    }
+
+    /* Option description */
+    .cs-option__desc {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      grid-column: 2;
+    }
+  }
+}

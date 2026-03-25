@@ -1,0 +1,125 @@
+/* ============================================
+   17 — sibling-index() / sibling-count()
+   Rainbow staircase with staggered delays
+   and hue distributed across siblings.
+   ============================================ */
+
+@scope ([data-feature="sibling-functions"]) {
+  :scope {
+    --hue-primary: 0;
+    --hue-accent: 30;
+  }
+
+  /* Sibling list */
+  .sibling-list {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-xs);
+    padding: var(--space-xl) var(--space-md);
+    min-height: 300px;
+    width: 100%;
+    background: var(--bg-deep);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* Override demo centering for this section */
+  :scope .experiment__demo {
+    display: block;
+  }
+
+  /* Each sibling item — rainbow staircase */
+  .sibling-item {
+    flex: 1;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    cursor: pointer;
+    transition:
+      scale 0.3s var(--ease-spring),
+      filter 0.3s var(--ease-out-expo);
+
+    /* Fallback: nth-child staircase (for browsers without sibling-index) */
+    --item-hue: 0;
+    height: 60px;
+    background: oklch(0.65 0.18 var(--item-hue));
+    animation: sibling-rise 0.6s var(--ease-out-expo) both;
+    animation-delay: 0ms;
+
+    &:nth-child(1)  { --item-hue: 0;   height: 60px;  animation-delay: 60ms; }
+    &:nth-child(2)  { --item-hue: 30;  height: 80px;  animation-delay: 120ms; }
+    &:nth-child(3)  { --item-hue: 60;  height: 100px; animation-delay: 180ms; }
+    &:nth-child(4)  { --item-hue: 90;  height: 120px; animation-delay: 240ms; }
+    &:nth-child(5)  { --item-hue: 120; height: 140px; animation-delay: 300ms; }
+    &:nth-child(6)  { --item-hue: 150; height: 160px; animation-delay: 360ms; }
+    &:nth-child(7)  { --item-hue: 180; height: 180px; animation-delay: 420ms; }
+    &:nth-child(8)  { --item-hue: 210; height: 200px; animation-delay: 480ms; }
+    &:nth-child(9)  { --item-hue: 240; height: 220px; animation-delay: 540ms; }
+    &:nth-child(10) { --item-hue: 270; height: 240px; animation-delay: 600ms; }
+    &:nth-child(11) { --item-hue: 300; height: 260px; animation-delay: 660ms; }
+    &:nth-child(12) { --item-hue: 330; height: 280px; animation-delay: 720ms; }
+
+    /* Progressive enhancement: use sibling functions when available */
+    @supports (height: calc(40px + sibling-index() * 20px)) {
+      height: calc(40px + sibling-index() * 20px);
+      --item-hue: calc(360 / sibling-count() * sibling-index());
+      animation-delay: calc(sibling-index() * 60ms);
+    }
+
+    &:hover {
+      scale: 1.08;
+      filter: brightness(1.2);
+      z-index: 1;
+
+      &::after {
+        opacity: 1;
+        translate: 0 -8px;
+      }
+    }
+
+    /* Tooltip showing index */
+    &::after {
+      content: counter(sibling-index);
+      counter-reset: sibling-index sibling-index();
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      translate: -50% 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: oklch(0.95 0.02 var(--item-hue));
+      background: oklch(0.25 0.08 var(--item-hue));
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      transition:
+        opacity 0.2s var(--ease-out-expo),
+        translate 0.2s var(--ease-out-expo);
+      pointer-events: none;
+    }
+
+    /* Glow effect */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        oklch(0.8 0.1 var(--item-hue) / 0.3) 0%,
+        transparent 60%
+      );
+    }
+  }
+
+  @keyframes sibling-rise {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

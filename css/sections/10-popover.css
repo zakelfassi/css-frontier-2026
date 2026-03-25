@@ -1,0 +1,150 @@
+/* ============================================
+   10 — Popover API
+   Multiple popover types with @starting-style entry animations.
+   ============================================ */
+
+@scope ([data-feature="popover"]) {
+  :scope {
+    --hue-primary: 170;
+    --hue-accent: 200;
+  }
+
+  /* Trigger buttons */
+  .pop-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--bg-elevated);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition:
+      background 0.2s var(--ease-out-expo),
+      border-color 0.2s var(--ease-out-expo),
+      scale 0.15s var(--ease-spring);
+
+    &:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent-muted);
+      scale: 1.03;
+    }
+
+    &:active {
+      scale: 0.97;
+    }
+  }
+
+  /* Popover content panel */
+  .pop-content {
+    padding: var(--space-lg);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow:
+      0 16px 48px oklch(0 0 0 / 0.3),
+      0 0 0 1px oklch(1 0 0 / 0.05) inset;
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    max-width: 360px;
+    min-width: 240px;
+
+    /* Open state */
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+    transition:
+      opacity 0.3s var(--ease-out-expo),
+      scale 0.3s var(--ease-out-expo),
+      translate 0.3s var(--ease-out-expo),
+      display 0.3s allow-discrete,
+      overlay 0.3s allow-discrete;
+
+    /* Entry animation */
+    @starting-style {
+      opacity: 0;
+      scale: 0.92;
+      translate: 0 8px;
+    }
+
+    /* Exit state */
+    &:not(:popover-open) {
+      opacity: 0;
+      scale: 0.95;
+      translate: 0 4px;
+    }
+
+    /* Backdrop */
+    &::backdrop {
+      background: oklch(0.1 0.02 var(--hue-primary) / 0.4);
+      backdrop-filter: blur(4px);
+      transition:
+        background 0.3s var(--ease-out-expo),
+        display 0.3s allow-discrete,
+        overlay 0.3s allow-discrete;
+
+      @starting-style {
+        background: oklch(0.1 0.02 var(--hue-primary) / 0);
+      }
+    }
+  }
+
+  /* Nested popover trigger inside a popover */
+  .pop-nested-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--accent-dim);
+    color: var(--accent-bright);
+    border: 1px solid var(--accent-muted);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-block-start: var(--space-sm);
+    transition:
+      background 0.2s var(--ease-out-expo),
+      scale 0.15s var(--ease-spring);
+
+    &:hover {
+      background: var(--accent-muted);
+      scale: 1.05;
+    }
+  }
+
+  /* Nested popover */
+  .pop-nested-content {
+    padding: var(--space-md);
+    background: var(--bg-surface);
+    border: 1px solid var(--accent-muted);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px oklch(0 0 0 / 0.25);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    max-width: 280px;
+
+    opacity: 1;
+    scale: 1;
+    transition:
+      opacity 0.25s var(--ease-out-expo),
+      scale 0.25s var(--ease-out-expo),
+      display 0.25s allow-discrete,
+      overlay 0.25s allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+      scale: 0.9;
+    }
+
+    &:not(:popover-open) {
+      opacity: 0;
+      scale: 0.92;
+    }
+  }
+}

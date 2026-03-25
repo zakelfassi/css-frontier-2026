@@ -1,0 +1,119 @@
+/* ============================================
+   06 — Container Queries
+   Cards in a resizable container that reflow
+   between compact and expanded layouts.
+   ============================================ */
+
+@scope ([data-feature="container-queries"]) {
+  :scope {
+    --hue-primary: 190;
+    --hue-accent: 220;
+  }
+
+  /* Resizable wrapper */
+  .cq-resizable {
+    resize: horizontal;
+    overflow: hidden;
+    min-width: 280px;
+    max-width: 100%;
+    padding: var(--space-md);
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    background: var(--bg-deep);
+    position: relative;
+
+    /* Resize handle hint */
+    &::after {
+      content: "⇔ drag to resize";
+      position: absolute;
+      bottom: var(--space-xs);
+      right: var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--fg-subtle);
+      opacity: 0.6;
+    }
+  }
+
+  /* Container context */
+  .cq-container {
+    container-type: inline-size;
+    container-name: card-container;
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+  }
+
+  /* Card base — compact (small container) */
+  .cq-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: var(--space-md);
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: var(--space-sm);
+    align-items: center;
+    transition:
+      box-shadow 0.3s var(--ease-out-expo),
+      border-color 0.3s var(--ease-out-expo);
+
+    &:hover {
+      border-color: var(--accent-muted);
+      box-shadow: 0 4px 16px var(--accent-dim);
+    }
+
+    /* Icon placeholder */
+    &::before {
+      content: "";
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-muted), var(--accent-dim));
+      border: 1px solid var(--accent-muted);
+    }
+  }
+
+  /* Medium container: 2-column grid */
+  @container card-container (min-width: 480px) {
+    .cq-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cq-card {
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: var(--space-lg);
+
+      &::before {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  /* Large container: expanded cards with more detail */
+  @container card-container (min-width: 700px) {
+    .cq-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cq-card {
+      padding: var(--space-xl);
+      border-radius: 16px;
+
+      &::before {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+        background: linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent-bright)
+        );
+      }
+    }
+  }
+}

@@ -1,0 +1,122 @@
+/* ============================================
+   03 — Anchor Positioning
+   Diagram with labeled points and anchor-positioned tooltips.
+   ============================================ */
+
+@scope ([data-feature="anchor-positioning"]) {
+  :scope {
+    --hue-primary: 30;
+    --hue-accent: 60;
+  }
+
+  /* Diagram container */
+  .anchor-diagram {
+    position: relative;
+    min-height: 400px;
+    background:
+      linear-gradient(var(--border-subtle) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px),
+      radial-gradient(circle at 20% 30%, var(--accent-dim) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, oklch(0.4 0.08 var(--hue-accent)) 0%, transparent 50%),
+      var(--bg-surface);
+    background-size: 40px 40px, 40px 40px, auto, auto, auto;
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    overflow: visible;
+  }
+
+  /* Anchor points */
+  .anchor-point {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg-elevated);
+    box-shadow:
+      0 0 0 4px var(--accent-muted),
+      0 0 20px var(--accent-dim);
+    cursor: pointer;
+    anchor-name: --point;
+    transition: scale 0.2s var(--ease-spring);
+    z-index: 2;
+
+    &:hover {
+      scale: 1.4;
+    }
+
+    &:nth-of-type(1) { anchor-name: --point-1; top: 20%; left: 25%; }
+    &:nth-of-type(2) { anchor-name: --point-2; top: 50%; left: 60%; }
+    &:nth-of-type(3) { anchor-name: --point-3; top: 75%; left: 35%; }
+    &:nth-of-type(4) { anchor-name: --point-4; top: 30%; left: 80%; }
+
+    /* Pulse ring */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      opacity: 0;
+      animation: anchor-pulse 2s var(--ease-out-expo) infinite;
+    }
+  }
+
+  @keyframes anchor-pulse {
+    0% { opacity: 0.6; scale: 1; }
+    100% { opacity: 0; scale: 2; }
+  }
+
+  /* Tooltips anchored to points */
+  .anchor-tooltip {
+    position: absolute;
+    top: anchor(bottom);
+    left: anchor(center);
+    translate: -50% 12px;
+    background: var(--bg-elevated);
+    color: var(--fg);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px oklch(0 0 0 / 0.3);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s var(--ease-out-expo);
+    z-index: 3;
+
+    /* Arrow */
+    &::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      translate: -50% 0;
+      width: 12px;
+      height: 6px;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background: var(--bg-elevated);
+    }
+
+    &:nth-of-type(1) { position-anchor: --point-1; }
+    &:nth-of-type(2) { position-anchor: --point-2; }
+    &:nth-of-type(3) { position-anchor: --point-3; }
+    &:nth-of-type(4) { position-anchor: --point-4; }
+  }
+
+  .anchor-point:hover + .anchor-tooltip,
+  .anchor-tooltip:hover {
+    opacity: 1;
+  }
+
+  /* Connecting lines */
+  .anchor-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-muted), transparent);
+    transform-origin: left center;
+    opacity: 0.4;
+    z-index: 1;
+  }
+}

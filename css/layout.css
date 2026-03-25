@@ -1,0 +1,167 @@
+/* ============================================
+   Layout — Section Grid + Experiment Template
+   Uses Container Queries for code/demo layout.
+   ============================================ */
+
+main {
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+
+/* --- Experiment Section Template --- */
+
+.experiment {
+  padding: var(--space-2xl) var(--section-padding-inline);
+  border-block-end: 1px solid var(--border-subtle);
+  position: relative;
+
+  /* Section entry animation via scroll-driven timeline */
+  animation: section-enter linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 25%;
+}
+
+@keyframes section-enter {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* --- Experiment Header --- */
+
+.experiment__header {
+  margin-block-end: var(--space-lg);
+  position: relative;
+}
+
+.experiment__title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--fg);
+  anchor-name: --section-title;
+}
+
+.experiment__badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--accent-dim);
+  color: var(--accent-bright);
+  border: 1px solid var(--accent-muted);
+  border-radius: 100vw;
+  margin-block-start: var(--space-sm);
+}
+
+/* --- Experiment Content --- */
+
+.experiment__content {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.experiment__explainer {
+  max-width: 65ch;
+  display: grid;
+  gap: var(--space-md);
+  color: var(--fg-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+
+  & strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.1em 0.4em;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+    color: var(--accent-bright);
+  }
+}
+
+/* --- Playground (demo + code) --- */
+
+.experiment__playground {
+  container-type: inline-size;
+  container-name: playground;
+  display: grid;
+  gap: var(--space-md);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Side-by-side when wide enough — Container Query */
+@container playground (min-inline-size: 700px) {
+  .experiment__playground {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Stacked when narrow */
+@container playground (max-inline-size: 699px) {
+  .experiment__playground {
+    grid-template-rows: auto auto;
+  }
+}
+
+.experiment__demo {
+  padding: var(--space-lg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.experiment__code {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+
+  & pre {
+    margin: 0;
+    padding: var(--space-md);
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    tab-size: 2;
+  }
+
+  & code {
+    font-family: var(--font-mono);
+  }
+}
+
+.experiment__code-label {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-subtle);
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--bg-elevated);
+  border-radius: 4px;
+  z-index: 1;
+}

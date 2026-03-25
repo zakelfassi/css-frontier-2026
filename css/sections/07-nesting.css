@@ -1,0 +1,138 @@
+/* ============================================
+   07 — Native CSS Nesting
+   A component styled entirely with native nesting syntax.
+   ============================================ */
+
+@scope ([data-feature="nesting"]) {
+  :scope {
+    --hue-primary: 100;
+    --hue-accent: 140;
+  }
+
+  .nesting-component {
+    display: grid;
+    gap: var(--space-lg);
+
+    /* Nested card component */
+    .nesting-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.3s var(--ease-out-expo);
+
+      &:hover {
+        border-color: var(--accent-muted);
+
+        .nesting-card__header {
+          background: var(--accent-dim);
+        }
+
+        .nesting-card__icon {
+          scale: 1.1;
+          rotate: 5deg;
+        }
+      }
+
+      /* Card header — nested inside .nesting-card */
+      .nesting-card__header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        padding: var(--space-md) var(--space-lg);
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border-subtle);
+        transition: background 0.3s var(--ease-out-expo);
+
+        .nesting-card__icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+          transition:
+            scale 0.25s var(--ease-spring),
+            rotate 0.25s var(--ease-spring);
+        }
+
+        .nesting-card__title {
+          font-family: var(--font-sans);
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: var(--fg);
+        }
+      }
+
+      /* Card body — nested */
+      .nesting-card__body {
+        padding: var(--space-lg);
+        color: var(--fg-muted);
+        font-size: 0.85rem;
+        line-height: 1.6;
+
+        /* Code blocks inside body */
+        code {
+          font-family: var(--font-mono);
+          font-size: 0.8em;
+          padding: 2px 6px;
+          background: var(--bg-deep);
+          border: 1px solid var(--border-subtle);
+          border-radius: 4px;
+          color: var(--accent-bright);
+        }
+
+        /* Lists inside body */
+        ul {
+          list-style: none;
+          padding: 0;
+          margin-block-start: var(--space-sm);
+
+          li {
+            padding: var(--space-xs) 0;
+            padding-inline-start: var(--space-md);
+            position: relative;
+
+            &::before {
+              content: "";
+              position: absolute;
+              left: 0;
+              top: 50%;
+              width: 6px;
+              height: 6px;
+              border-radius: 50%;
+              background: var(--accent);
+              translate: 0 -50%;
+            }
+
+            & + li {
+              border-top: 1px solid var(--border-subtle);
+            }
+          }
+        }
+      }
+
+      /* Card footer — nested */
+      .nesting-card__footer {
+        display: flex;
+        gap: var(--space-sm);
+        padding: var(--space-sm) var(--space-lg);
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-subtle);
+
+        .nesting-tag {
+          padding: var(--space-2xs) var(--space-sm);
+          border-radius: 100px;
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          background: var(--accent-dim);
+          color: var(--accent-bright);
+          border: 1px solid var(--accent-muted);
+          transition: background 0.2s var(--ease-out-expo);
+
+          &:hover {
+            background: var(--accent-muted);
+          }
+        }
+      }
+    }
+  }
+}

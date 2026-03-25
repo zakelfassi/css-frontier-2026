@@ -1,0 +1,96 @@
+/* ============================================
+   16 — CSS Masonry Layout
+   Gallery with masonry grid and varied item heights.
+   ============================================ */
+
+@scope ([data-feature="masonry"]) {
+  :scope {
+    --hue-primary: 200;
+    --hue-accent: 230;
+  }
+
+  /* Masonry grid */
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-rows: masonry;
+    gap: var(--space-md);
+    align-tracks: stretch;
+  }
+
+  /* Masonry items */
+  .masonry-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: var(--space-lg);
+    overflow: hidden;
+    position: relative;
+    transition:
+      border-color 0.3s var(--ease-out-expo),
+      box-shadow 0.3s var(--ease-out-expo),
+      translate 0.3s var(--ease-spring);
+
+    &:hover {
+      border-color: var(--accent-muted);
+      box-shadow: 0 8px 24px var(--accent-dim);
+      translate: 0 -4px;
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    /* Gradient overlay on hover */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 50%,
+        var(--accent-dim) 100%
+      );
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-out-expo);
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* Decorative top stripe */
+    &::before {
+      content: "";
+      display: block;
+      height: 3px;
+      border-radius: 2px;
+      margin-block-end: var(--space-md);
+      background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+    }
+
+    /* Height from inline --h custom property */
+    min-height: var(--h, 160px);
+
+    /* Content styles */
+    h4 {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin-block-end: var(--space-xs);
+    }
+
+    p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--fg-muted);
+    }
+
+    /* Color accent per item */
+    &:nth-child(6n + 1)::before { background: linear-gradient(90deg, oklch(0.7 0.15 200), oklch(0.7 0.15 230)); }
+    &:nth-child(6n + 2)::before { background: linear-gradient(90deg, oklch(0.7 0.15 260), oklch(0.7 0.15 290)); }
+    &:nth-child(6n + 3)::before { background: linear-gradient(90deg, oklch(0.7 0.15 150), oklch(0.7 0.15 180)); }
+    &:nth-child(6n + 4)::before { background: linear-gradient(90deg, oklch(0.7 0.15 30), oklch(0.7 0.15 60)); }
+    &:nth-child(6n + 5)::before { background: linear-gradient(90deg, oklch(0.7 0.15 320), oklch(0.7 0.15 350)); }
+    &:nth-child(6n + 6)::before { background: linear-gradient(90deg, oklch(0.7 0.15 100), oklch(0.7 0.15 130)); }
+  }
+}

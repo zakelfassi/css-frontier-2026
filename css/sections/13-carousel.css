@@ -1,0 +1,155 @@
+/* ============================================
+   13 — CSS Carousel (scroll-driven)
+   CSS-only carousel with experimental scroll
+   pseudo-elements for buttons and markers.
+   ============================================ */
+
+@scope ([data-feature="carousel"]) {
+  :scope {
+    --hue-primary: 310;
+    --hue-accent: 340;
+  }
+
+  /* Carousel wrapper */
+  .carousel {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+  }
+
+  /* Scrollable track */
+  .carousel__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    gap: 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Scroll buttons (experimental) */
+    &::scroll-button(inline-start) {
+      content: "←";
+      position: absolute;
+      left: var(--space-sm);
+      top: 50%;
+      translate: 0 -50%;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition:
+        background 0.2s var(--ease-out-expo),
+        scale 0.15s var(--ease-spring);
+
+      &:hover {
+        background: var(--accent-dim);
+        scale: 1.1;
+      }
+    }
+
+    &::scroll-button(inline-end) {
+      content: "→";
+      position: absolute;
+      right: var(--space-sm);
+      top: 50%;
+      translate: 0 -50%;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition:
+        background 0.2s var(--ease-out-expo),
+        scale 0.15s var(--ease-spring);
+
+      &:hover {
+        background: var(--accent-dim);
+        scale: 1.1;
+      }
+    }
+
+    /* Scroll marker group */
+    &::scroll-marker-group {
+      display: flex;
+      gap: var(--space-xs);
+      justify-content: center;
+      padding: var(--space-sm);
+    }
+  }
+
+  /* Carousel items */
+  .carousel__item {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    min-height: 300px;
+    display: grid;
+    place-items: center;
+    padding: var(--space-xl);
+    position: relative;
+
+    /* Gradient background using --item-hue from HTML */
+    background: linear-gradient(
+      135deg,
+      oklch(0.3 0.12 var(--item-hue, 310)),
+      oklch(0.2 0.08 calc(var(--item-hue, 310) + 30))
+    );
+
+    /* Scroll marker per item */
+    &::scroll-marker {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--fg-subtle);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition:
+        background 0.2s var(--ease-out-expo),
+        scale 0.2s var(--ease-spring);
+    }
+
+    &::scroll-marker:target-current {
+      background: var(--accent);
+      border-color: var(--accent-bright);
+      scale: 1.3;
+    }
+
+    /* Content inside each slide */
+    & > * {
+      text-align: center;
+      color: var(--fg);
+    }
+  }
+
+  .carousel__item-number {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900;
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .carousel__item-label {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--fg-muted);
+  }
+}

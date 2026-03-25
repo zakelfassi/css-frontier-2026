@@ -1,0 +1,126 @@
+/* ============================================
+   Navigation — Popover TOC + Anchor Positioning
+   Self-referential: uses Popover API, Anchor
+   Positioning, and @starting-style.
+   ============================================ */
+
+.toc-trigger {
+  position: fixed;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 100;
+
+  anchor-name: --toc-btn;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  transition: background 0.2s, border-color 0.2s, scale 0.2s var(--ease-spring);
+
+  &:hover {
+    background: var(--bg-surface);
+    border-color: var(--accent-muted);
+    scale: 1.08;
+  }
+}
+
+/* --- TOC Panel --- */
+
+.toc-panel {
+  position: fixed;
+  position-anchor: --toc-btn;
+
+  /* Anchor to above the button, aligned right */
+  inset: auto;
+  bottom: anchor(--toc-btn top, 60px);
+  right: anchor(--toc-btn right, var(--space-lg));
+
+  margin: 0;
+  margin-block-end: var(--space-sm);
+
+  width: min(320px, 90vw);
+  max-height: 70vh;
+  overflow-y: auto;
+
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: var(--space-md);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 20px 60px oklch(0 0 0 / 0.5),
+    0 0 0 1px oklch(1 0 0 / 0.05) inset;
+
+  /* Entry animation with @starting-style */
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 0.25s var(--ease-out-expo),
+    transform 0.25s var(--ease-out-expo),
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete;
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  /* Hide state */
+  &:not(:popover-open) {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+.toc-panel__title {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--fg-subtle);
+  padding: var(--space-xs) var(--space-sm);
+  margin-block-end: var(--space-xs);
+}
+
+.toc-panel__list {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.toc-panel__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-sm);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--fg-muted);
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--bg-surface);
+    color: var(--fg);
+  }
+}
+
+.toc-panel__number {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fg-subtle);
+  min-width: 2ch;
+}

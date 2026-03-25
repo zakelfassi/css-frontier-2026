@@ -1,0 +1,34 @@
+/* ============================================
+   CSS Frontier Experiments 2026
+   Root stylesheet — Cascade Layer orchestration.
+   Using @layer is itself a demo of CSS Layers.
+   ============================================ */
+
+@layer reset, tokens, layout, hero, nav, code, sections;
+
+@import url("css/reset.css") layer(reset);
+@import url("css/tokens.css") layer(tokens);
+@import url("css/layout.css") layer(layout);
+@import url("css/hero.css") layer(hero);
+@import url("css/nav.css") layer(nav);
+@import url("css/code.css") layer(code);
+
+/* Section styles */
+@import url("css/sections/01-scroll-driven.css") layer(sections);
+@import url("css/sections/02-view-transitions.css") layer(sections);
+@import url("css/sections/03-anchor-positioning.css") layer(sections);
+@import url("css/sections/04-starting-style.css") layer(sections);
+@import url("css/sections/05-oklch-color.css") layer(sections);
+@import url("css/sections/06-container-queries.css") layer(sections);
+@import url("css/sections/07-nesting.css") layer(sections);
+@import url("css/sections/08-scope.css") layer(sections);
+@import url("css/sections/09-has.css") layer(sections);
+@import url("css/sections/10-popover.css") layer(sections);
+@import url("css/sections/11-text-wrap.css") layer(sections);
+@import url("css/sections/12-at-property.css") layer(sections);
+@import url("css/sections/13-carousel.css") layer(sections);
+@import url("css/sections/14-style-queries.css") layer(sections);
+@import url("css/sections/15-field-sizing.css") layer(sections);
+@import url("css/sections/16-masonry.css") layer(sections);
+@import url("css/sections/17-sibling-functions.css") layer(sections);
+@import url("css/sections/18-custom-select.css") layer(sections);

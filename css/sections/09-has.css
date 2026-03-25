@@ -1,0 +1,136 @@
+/* ============================================
+   09 — :has() Selector
+   Reactive form: all interactivity via :has(), zero JS.
+   ============================================ */
+
+@scope ([data-feature="has"]) {
+  :scope {
+    --hue-primary: 290;
+    --hue-accent: 320;
+  }
+
+  /* Form container */
+  .has-form {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--bg-surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: background 0.4s var(--ease-out-expo);
+
+    /* Form reacts to checked checkbox */
+    &:has(.has-checkbox:checked) {
+      background: var(--accent-dim);
+      border-color: var(--accent-muted);
+    }
+
+    /* Form reacts when any input is focused */
+    &:has(.has-input:focus) {
+      box-shadow: 0 0 0 2px var(--accent-muted), 0 8px 32px var(--accent-dim);
+    }
+  }
+
+  /* Field wrapper */
+  .has-field {
+    display: grid;
+    gap: var(--space-xs);
+    position: relative;
+
+    /* Highlight label when its sibling input is focused */
+    &:has(.has-input:focus) .has-label {
+      color: var(--accent-bright);
+      translate: 0 -2px;
+    }
+
+    /* Warning state when input is empty (placeholder shown) */
+    &:has(.has-input:placeholder-shown) .has-label::after {
+      content: " (required)";
+      font-size: 0.7em;
+      color: oklch(0.7 0.15 30);
+      font-style: italic;
+    }
+
+    /* Success state when input has value */
+    &:has(.has-input:not(:placeholder-shown)) .has-label::after {
+      content: " ✓";
+      color: oklch(0.7 0.15 150);
+    }
+
+    /* Invalid state */
+    &:has(.has-input:invalid:not(:placeholder-shown)) {
+      .has-label::after {
+        content: " (invalid)";
+        color: oklch(0.7 0.15 25);
+        font-size: 0.7em;
+      }
+
+      .has-input {
+        border-color: oklch(0.6 0.18 25);
+      }
+    }
+  }
+
+  /* Labels */
+  .has-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    transition:
+      color 0.2s var(--ease-out-expo),
+      translate 0.2s var(--ease-out-expo);
+  }
+
+  /* Inputs */
+  .has-input {
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition:
+      border-color 0.2s var(--ease-out-expo),
+      box-shadow 0.2s var(--ease-out-expo);
+
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    &::placeholder {
+      color: var(--fg-subtle);
+    }
+  }
+
+  /* Checkbox row */
+  .has-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg-deep);
+    cursor: pointer;
+    position: relative;
+    transition:
+      background 0.2s var(--ease-out-expo),
+      border-color 0.2s var(--ease-out-expo);
+
+    &:checked {
+      background: var(--accent);
+      border-color: var(--accent-bright);
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 2px;
+        background: var(--bg-deep);
+        clip-path: polygon(20% 50%, 40% 70%, 80% 25%, 85% 30%, 40% 80%, 15% 55%);
+      }
+    }
+  }
+}

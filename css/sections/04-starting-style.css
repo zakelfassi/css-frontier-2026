@@ -1,0 +1,131 @@
+/* ============================================
+   04 — @starting-style
+   Cards toggle display:none→block with entry animations.
+   Each card animates from a different direction.
+   ============================================ */
+
+@scope ([data-feature="starting-style"]) {
+  :scope {
+    --hue-primary: 350;
+    --hue-accent: 20;
+  }
+
+  /* Card grid */
+  .ss-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+  }
+
+  /* Toggle button */
+  .ss-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--accent);
+    color: var(--bg-deep);
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      scale 0.15s var(--ease-spring),
+      background 0.2s var(--ease-out-expo);
+    margin-block-end: var(--space-lg);
+
+    &:hover {
+      scale: 1.05;
+      background: var(--accent-bright);
+    }
+
+    &:active {
+      scale: 0.97;
+    }
+  }
+
+  /* Base card — visible state */
+  .ss-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: var(--space-lg);
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    rotate: 0deg;
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      translate 0.5s var(--ease-out-expo),
+      scale 0.5s var(--ease-out-expo),
+      rotate 0.5s var(--ease-out-expo),
+      display 0.5s allow-discrete;
+
+    /* Entry animation: start from invisible */
+    @starting-style {
+      opacity: 0;
+      translate: 0 30px;
+      scale: 0.9;
+    }
+
+    &:hover {
+      border-color: var(--accent-muted);
+      box-shadow: 0 4px 20px var(--accent-dim);
+    }
+  }
+
+  /* Each card enters from a different direction */
+  .ss-card:nth-child(1) {
+    @starting-style {
+      opacity: 0;
+      translate: -40px 0;
+    }
+  }
+
+  .ss-card:nth-child(2) {
+    @starting-style {
+      opacity: 0;
+      translate: 0 -40px;
+      scale: 0.8;
+    }
+  }
+
+  .ss-card:nth-child(3) {
+    @starting-style {
+      opacity: 0;
+      translate: 40px 0;
+      rotate: 5deg;
+    }
+  }
+
+  .ss-card:nth-child(4) {
+    @starting-style {
+      opacity: 0;
+      translate: 0 40px;
+      scale: 0.7;
+    }
+  }
+
+  .ss-card:nth-child(5) {
+    @starting-style {
+      opacity: 0;
+      scale: 0.5;
+      rotate: -10deg;
+    }
+  }
+
+  .ss-card:nth-child(6) {
+    @starting-style {
+      opacity: 0;
+      translate: -30px 30px;
+    }
+  }
+
+  /* Hidden state (toggled off) */
+  .ss-card[hidden] {
+    display: none;
+  }
+}

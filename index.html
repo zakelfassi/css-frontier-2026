@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Frontier 2026 — The Future is Already Here</title>
+  <meta name="description" content="A living playground of cutting-edge CSS features. Every feature on this page is built with the features it documents.">
+  <meta property="og:title" content="CSS Frontier 2026">
+  <meta property="og:description" content="18 CSS features that are rewriting the rules. Interactive demos, live code, zero build step.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============================================
+     TOC — Popover API + Anchor Positioning
+     ============================================ -->
+
+<button popovertarget="toc" class="toc-trigger" aria-label="Table of contents">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/>
+    <line x1="3" y1="10" x2="17" y2="10"/>
+    <line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+
+<nav id="toc" popover class="toc-panel">
+  <p class="toc-panel__title">Experiments</p>
+  <ol class="toc-panel__list">
+    <li><a href="#scroll-driven" class="toc-panel__link"><span class="toc-panel__number">01</span> Scroll-Driven Animations</a></li>
+    <li><a href="#view-transitions" class="toc-panel__link"><span class="toc-panel__number">02</span> View Transitions</a></li>
+    <li><a href="#anchor-positioning" class="toc-panel__link"><span class="toc-panel__number">03</span> Anchor Positioning</a></li>
+    <li><a href="#starting-style" class="toc-panel__link"><span class="toc-panel__number">04</span> @starting-style</a></li>
+    <li><a href="#oklch-color" class="toc-panel__link"><span class="toc-panel__number">05</span> oklch + color-mix()</a></li>
+    <li><a href="#container-queries" class="toc-panel__link"><span class="toc-panel__number">06</span> Container Queries</a></li>
+    <li><a href="#nesting" class="toc-panel__link"><span class="toc-panel__number">07</span> CSS Nesting</a></li>
+    <li><a href="#scope" class="toc-panel__link"><span class="toc-panel__number">08</span> @scope</a></li>
+    <li><a href="#has" class="toc-panel__link"><span class="toc-panel__number">09</span> :has()</a></li>
+    <li><a href="#popover" class="toc-panel__link"><span class="toc-panel__number">10</span> Popover API</a></li>
+    <li><a href="#text-wrap" class="toc-panel__link"><span class="toc-panel__number">11</span> text-wrap</a></li>
+    <li><a href="#at-property" class="toc-panel__link"><span class="toc-panel__number">12</span> @property</a></li>
+    <li><a href="#carousel" class="toc-panel__link"><span class="toc-panel__number">13</span> CSS Carousels</a></li>
+    <li><a href="#style-queries" class="toc-panel__link"><span class="toc-panel__number">14</span> Style Queries</a></li>
+    <li><a href="#field-sizing" class="toc-panel__link"><span class="toc-panel__number">15</span> field-sizing</a></li>
+    <li><a href="#masonry" class="toc-panel__link"><span class="toc-panel__number">16</span> Masonry</a></li>
+    <li><a href="#sibling-functions" class="toc-panel__link"><span class="toc-panel__number">17</span> Sibling Functions</a></li>
+    <li><a href="#custom-select" class="toc-panel__link"><span class="toc-panel__number">18</span> Customizable &lt;select&gt;</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================
+     HERO — Scroll-Driven Title Reveal
+     ============================================ -->
+
+<header class="hero">
+  <div class="hero__sticky">
+    <div class="hero__bg"></div>
+    <div class="hero__orb hero__orb--1"></div>
+    <div class="hero__orb hero__orb--2"></div>
+    <div class="hero__orb hero__orb--3"></div>
+
+    <div class="hero__content">
+      <h1 class="hero__title">
+        <span class="hero__title-line">CSS</span>
+        <span class="hero__title-line hero__title-accent">Frontier</span>
+        <span class="hero__title-line">2026</span>
+      </h1>
+      <p class="hero__subtitle">
+        18 features that are rewriting the rules of the web. Every demo on this page is built with the feature it documents. Scroll to begin.
+      </p>
+    </div>
+
+    <div class="hero__scroll-hint">
+      <div class="hero__scroll-arrow"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================
+     01 — Scroll-Driven Animations
+     ============================================ -->
+
+<section id="scroll-driven" class="experiment" data-feature="scroll-driven">
+  <div class="scroll-progress-track">
+    <div class="scroll-progress-fill"></div>
+  </div>
+
+  <div class="experiment__header">
+    <h2 class="experiment__title">Scroll-Driven Animations</h2>
+    <span class="experiment__badge">Chrome 115+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Animations that respond to scroll position, not time.</strong> The <code>animation-timeline</code> property lets you bind any CSS animation to the scroll progress of a container or the visibility of an element in the viewport.</p>
+      <p>This replaces entire JavaScript libraries — no Intersection Observer, no scroll event listeners, no requestAnimationFrame. The browser handles it on the compositor thread, so it's buttery smooth even on heavy pages.</p>
+      <p>The progress bar at the top of this section? That's <code>animation-timeline: view()</code>. The shapes below animate as you scroll through. Even the fade-in of every section on this page uses scroll-driven animations.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="scroll-shapes">
+          <div class="scroll-shape"></div>
+          <div class="scroll-shape"></div>
+          <div class="scroll-shape"></div>
+          <div class="scroll-shape"></div>
+          <div class="scroll-shape"></div>
+        </div>
+        <div class="scroll-scale-bar"></div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.element {
+  animation: spin linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+
+@keyframes spin {
+  from { rotate: 0deg; scale: 0.5; }
+  50%  { scale: 1; border-radius: 50%; }
+  to   { rotate: 360deg; scale: 0.5; }
+}
+
+/* Progress bar tied to scroll */
+.progress {
+  animation: fill linear both;
+  animation-timeline: view(block);
+  animation-range: contain 0% contain 100%;
+}
+
+@keyframes fill {
+  from { scale: 0 1; }
+  to   { scale: 1 1; }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     02 — View Transitions API
+     ============================================ -->
+
+<section id="view-transitions" class="experiment" data-feature="view-transitions">
+  <div class="experiment__header">
+    <h2 class="experiment__title">View Transitions API</h2>
+    <span class="experiment__badge">Chrome 111+ / L2: 126+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Native animated transitions between DOM states.</strong> <code>document.startViewTransition()</code> snapshots the old state, applies your changes, then animates between old and new using CSS pseudo-elements you can style.</p>
+      <p>Level 1 handles same-document transitions (SPAs, tab switches). Level 2 extends this across full page navigations — the browser morphs between pages with zero framework code. This is the death of page-transition libraries.</p>
+      <p>Click the tabs below. The content crossfades and slides via View Transitions. The animation is defined entirely in CSS.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div data-vt-group>
+          <div class="vt-tabs">
+            <button class="vt-tab active" data-vt-tab="alpha">Alpha</button>
+            <button class="vt-tab" data-vt-tab="beta">Beta</button>
+            <button class="vt-tab" data-vt-tab="gamma">Gamma</button>
+          </div>
+          <div class="vt-panels">
+            <div class="vt-panel active" data-vt-panel="alpha" style="view-transition-name: vt-panel">
+              <h3>Alpha State</h3>
+              <p>This panel uses <code>view-transition-name</code> to create a smooth morph between content states. No layout thrashing, no FLIP technique — the browser handles the snapshot and animation.</p>
+            </div>
+            <div class="vt-panel" data-vt-panel="beta" style="view-transition-name: vt-panel">
+              <h3>Beta State</h3>
+              <p>The crossfade you see is the default <code>::view-transition-old</code> and <code>::view-transition-new</code> pseudo-elements animating. You can customize these transitions per-element.</p>
+            </div>
+            <div class="vt-panel" data-vt-panel="gamma" style="view-transition-name: vt-panel">
+              <h3>Gamma State</h3>
+              <p>Level 2 of the API enables this across full page navigations. Add <code>@view-transition { navigation: auto; }</code> to your CSS and the browser handles cross-document morphing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS + JS</span>
+        <pre><code class="language-css">.panel {
+  view-transition-name: content;
+}
+
+::view-transition-old(content) {
+  animation: fade-out 0.25s ease;
+}
+
+::view-transition-new(content) {
+  animation: slide-in 0.3s ease;
+}
+
+/* Cross-document (Level 2) */
+@view-transition {
+  navigation: auto;
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     03 — Anchor Positioning
+     ============================================ -->
+
+<section id="anchor-positioning" class="experiment" data-feature="anchor-positioning">
+  <div class="experiment__header">
+    <h2 class="experiment__title">CSS Anchor Positioning</h2>
+    <span class="experiment__badge">Chrome 127+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Position any element relative to any other element, anywhere in the DOM.</strong> No JavaScript calculations, no <code>getBoundingClientRect()</code>, no resize observers. Just declare an anchor name and reference it.</p>
+      <p>This replaces Popper.js, Floating UI, and every tooltip-positioning library. The browser handles viewport collision detection, scroll tracking, and dynamic repositioning natively.</p>
+      <p>Hover the points below. The tooltips are positioned using <code>anchor()</code> functions — the CSS itself defines the spatial relationship.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="anchor-diagram">
+          <div class="anchor-point"></div>
+          <div class="anchor-tooltip">anchor-name creates the reference point. Any element can be an anchor.</div>
+          <div class="anchor-point"></div>
+          <div class="anchor-tooltip">position-anchor + anchor() functions position this tooltip without JS.</div>
+          <div class="anchor-point"></div>
+          <div class="anchor-tooltip">The browser handles viewport clamping automatically. Try resizing.</div>
+          <div class="anchor-point"></div>
+          <div class="anchor-tooltip">Works with popovers, dialogs, tooltips — any positioned element.</div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.trigger {
+  anchor-name: --my-anchor;
+}
+
+.tooltip {
+  position: absolute;
+  position-anchor: --my-anchor;
+
+  /* Position below the anchor, centered */
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 8px;
+
+  /* Viewport-aware fallback */
+  position-try-fallbacks: flip-block;
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     04 — @starting-style
+     ============================================ -->
+
+<section id="starting-style" class="experiment" data-feature="starting-style">
+  <div class="experiment__header">
+    <h2 class="experiment__title">@starting-style</h2>
+    <span class="experiment__badge">Chrome 117+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Entry animations from <code>display: none</code>, finally.</strong> <code>@starting-style</code> defines the initial state of an element when it first appears in the DOM — before any transitions kick in. Combined with <code>transition-behavior: allow-discrete</code>, you can smoothly animate elements that toggle visibility.</p>
+      <p>This is the missing piece for CSS-only modals, popovers, and toggled content. No more keyframe workarounds or JavaScript-managed animation states. The TOC button on this page uses @starting-style for its entry animation.</p>
+      <p>Click the button to toggle the cards. Each animates in from a different direction using @starting-style for the entry state.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <button class="ss-toggle-btn" data-toggle-cards>Toggle Cards</button>
+        <div class="ss-cards">
+          <div class="ss-card" style="--direction: up">
+            <span class="ss-card__icon">↑</span>
+            <span class="ss-card__label">Slide Up</span>
+          </div>
+          <div class="ss-card" style="--direction: right">
+            <span class="ss-card__icon">→</span>
+            <span class="ss-card__label">Slide Right</span>
+          </div>
+          <div class="ss-card" style="--direction: down">
+            <span class="ss-card__icon">↓</span>
+            <span class="ss-card__label">Slide Down</span>
+          </div>
+          <div class="ss-card" style="--direction: left">
+            <span class="ss-card__icon">←</span>
+            <span class="ss-card__label">Slide Left</span>
+          </div>
+          <div class="ss-card" style="--direction: scale">
+            <span class="ss-card__icon">⊕</span>
+            <span class="ss-card__label">Scale In</span>
+          </div>
+          <div class="ss-card" style="--direction: fade">
+            <span class="ss-card__icon">◐</span>
+            <span class="ss-card__label">Fade In</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.card {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    display 0.4s allow-discrete;
+
+  /* Entry state — before first render */
+  @starting-style {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Hidden state */
+.card[hidden] {
+  opacity: 0;
+  transform: translateY(-20px);
+  display: none;
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     05 — oklch + color-mix() + Relative Color
+     ============================================ -->
+
+<section id="oklch-color" class="experiment" data-feature="oklch-color">
+  <div class="experiment__header">
+    <h2 class="experiment__title">oklch + color-mix() + Relative Color Syntax</h2>
+    <span class="experiment__badge">Chrome 111+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>A perceptually uniform color space, built into CSS.</strong> <code>oklch()</code> gives you lightness, chroma, and hue axes that actually correspond to how humans see color. No more "technically complementary but visually muddy" palette generators.</p>
+      <p><code>color-mix()</code> blends any two colors in any color space. Relative color syntax lets you derive new colors by manipulating channels of existing ones — <code>oklch(from var(--base) l c calc(h + 180))</code> gives you a perfect complement.</p>
+      <p>This entire page's color system is built on oklch. The hue shifts between sections? A single <code>--hue-primary</code> custom property feeding into oklch-based tokens.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="color-wheel"></div>
+        <div class="color-swatches">
+          <div class="color-swatch color-swatch--base">base</div>
+          <div class="color-swatch color-swatch--tint-1">tint 80%</div>
+          <div class="color-swatch color-swatch--tint-2">tint 50%</div>
+          <div class="color-swatch color-swatch--shade-1">shade 80%</div>
+          <div class="color-swatch color-swatch--shade-2">shade 50%</div>
+          <div class="color-swatch color-swatch--complement">complement</div>
+          <div class="color-swatch color-swatch--analogous-1">+30°</div>
+          <div class="color-swatch color-swatch--analogous-2">-30°</div>
+          <div class="color-swatch color-swatch--split-1">+150°</div>
+          <div class="color-swatch color-swatch--split-2">+210°</div>
+        </div>
+        <div class="lightness-scale">
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+          <div class="lightness-step"></div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">/* Perceptually uniform color */
+.base { background: oklch(0.7 0.18 200); }
+
+/* Tints & shades via color-mix */
+.tint {
+  background: color-mix(
+    in oklch, oklch(0.7 0.18 200) 50%, white
+  );
+}
+
+/* Complement via relative color */
+.complement {
+  background: oklch(
+    from oklch(0.7 0.18 200)
+    l c calc(h + 180)
+  );
+}
+
+/* Full hue wheel */
+background: conic-gradient(
+  in oklch,
+  oklch(0.7 0.18 0),
+  oklch(0.7 0.18 120),
+  oklch(0.7 0.18 240),
+  oklch(0.7 0.18 360)
+);</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     06 — Container Queries
+     ============================================ -->
+
+<section id="container-queries" class="experiment" data-feature="container-queries">
+  <div class="experiment__header">
+    <h2 class="experiment__title">Container Queries</h2>
+    <span class="experiment__badge">Chrome 105+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Responsive design based on the container, not the viewport.</strong> <code>@container</code> queries let components adapt to the space they're given, not the screen size. This is how responsive components should always have worked.</p>
+      <p>Every code/demo panel on this page uses a container query to switch between side-by-side and stacked layouts. The cards below sit inside a resizable container — drag the handle to watch them reflow in real time.</p>
+      <p>This replaces the "put a resize observer on every component" pattern that frameworks have been doing for years.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="cq-resizable">
+          <div class="cq-container">
+            <div class="cq-card">
+              <div class="cq-card__icon">◆</div>
+              <div class="cq-card__content">
+                <h4 class="cq-card__title">Adaptive Card</h4>
+                <p class="cq-card__text">Resize the container to see this card change layouts. Compact → medium → expanded.</p>
+              </div>
+            </div>
+            <div class="cq-card">
+              <div class="cq-card__icon">◇</div>
+              <div class="cq-card__content">
+                <h4 class="cq-card__title">Self-Aware</h4>
+                <p class="cq-card__text">No media queries, no JavaScript. Pure CSS responding to its own container's inline size.</p>
+              </div>
+            </div>
+            <div class="cq-card">
+              <div class="cq-card__icon">○</div>
+              <div class="cq-card__content">
+                <h4 class="cq-card__title">Composable</h4>
+                <p class="cq-card__text">Drop this component anywhere — sidebar, main content, modal — and it just works.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.wrapper {
+  container-type: inline-size;
+  container-name: card-container;
+}
+
+/* Compact */
+.card { display: grid; gap: 0.5rem; }
+
+/* Medium — icon beside text */
+@container card-container (min-width: 400px) {
+  .card {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+/* Expanded — full layout */
+@container card-container (min-width: 700px) {
+  .card {
+    grid-template-columns: auto 1fr auto;
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     07 — CSS Nesting
+     ============================================ -->
+
+<section id="nesting" class="experiment" data-feature="nesting">
+  <div class="experiment__header">
+    <h2 class="experiment__title">CSS Nesting</h2>
+    <span class="experiment__badge">Chrome 120+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Native Sass-style nesting in plain CSS.</strong> You can now nest selectors, media queries, and container queries directly inside rule blocks. The <code>&</code> nesting selector refers to the parent, just like preprocessors — except it's native.</p>
+      <p>Every CSS file in this project uses native nesting. No Sass, no PostCSS, no build step. The browser handles it directly. This is one of those features that quietly changes how you write CSS every day.</p>
+      <p>The component below is styled entirely with nested CSS. The code shows the natural hierarchy that nesting enables.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="nesting-card">
+          <div class="nesting-card__header">
+            <h4>Nested Component</h4>
+            <span class="nesting-card__badge">Native</span>
+          </div>
+          <div class="nesting-card__body">
+            <p>This card is styled using native CSS nesting. Hover to see nested state changes.</p>
+            <ul class="nesting-card__list">
+              <li>Selectors nest naturally</li>
+              <li>Media queries nest inline</li>
+              <li>& references parent context</li>
+            </ul>
+          </div>
+          <div class="nesting-card__footer">
+            <code>No preprocessor required</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.card {
+  background: var(--bg-surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  /* Nested child */
+  & .header {
+    display: flex;
+    justify-content: space-between;
+
+    & h4 { font-weight: 700; }
+    & .badge { font-size: 0.75rem; }
+  }
+
+  /* Nested pseudo-class */
+  &:hover {
+    border-color: var(--accent);
+    & .header h4 { color: var(--accent); }
+  }
+
+  /* Nested media query */
+  @media (width < 600px) {
+    padding: 1rem;
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     08 — @scope
+     ============================================ -->
+
+<section id="scope" class="experiment" data-feature="scope">
+  <div class="experiment__header">
+    <h2 class="experiment__title">@scope</h2>
+    <span class="experiment__badge">Chrome 118+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>True style encapsulation without Shadow DOM.</strong> <code>@scope</code> limits where your styles apply — both from a root element down and optionally stopping before an inner boundary (donut scope). Same class names, completely different appearances, zero leakage.</p>
+      <p>Every section on this page uses <code>@scope</code> to isolate its demo styles. That's why sections can define aggressive selectors without conflicting. Below are two zones using identical class names with completely different visual treatments.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+          <div class="scope-zone--ocean">
+            <div class="scope-item">
+              <h4 class="scope-item__title">Ocean Zone</h4>
+              <p class="scope-item__text">Same .scope-item class, scoped to ocean theme.</p>
+            </div>
+            <div class="scope-item">
+              <h4 class="scope-item__title">Deep Blue</h4>
+              <p class="scope-item__text">Cool tones, rounded corners, subtle gradient.</p>
+            </div>
+          </div>
+          <div class="scope-zone--sunset">
+            <div class="scope-item">
+              <h4 class="scope-item__title">Sunset Zone</h4>
+              <p class="scope-item__text">Same .scope-item class, scoped to sunset theme.</p>
+            </div>
+            <div class="scope-item">
+              <h4 class="scope-item__title">Warm Glow</h4>
+              <p class="scope-item__text">Warm tones, sharp edges, bold borders.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">/* Ocean zone */
+@scope (.zone--ocean) {
+  .item {
+    background: oklch(0.3 0.1 220);
+    border-radius: 12px;
+  }
+}
+
+/* Sunset zone — same classes! */
+@scope (.zone--sunset) {
+  .item {
+    background: oklch(0.3 0.12 30);
+    border-radius: 2px;
+    border-left: 3px solid oklch(0.7 0.2 30);
+  }
+}
+
+/* Donut scope — style outer, skip inner */
+@scope (.wrapper) to (.inner) {
+  p { color: var(--accent); }
+  /* .inner p is NOT affected */
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     09 — :has()
+     ============================================ -->
+
+<section id="has" class="experiment" data-feature="has">
+  <div class="experiment__header">
+    <h2 class="experiment__title">:has() Selector</h2>
+    <span class="experiment__badge">Chrome 105+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>The parent selector CSS always needed.</strong> <code>:has()</code> selects an element based on what it contains or what's happening inside it. Check a checkbox and the entire form changes appearance. Focus an input and its label highlights. All CSS, zero JavaScript.</p>
+      <p>This is the most impactful selector addition since CSS3. It enables reactive UI patterns that previously required JavaScript event listeners and class toggling. The form below is entirely CSS-driven.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <form class="has-form" onsubmit="return false">
+          <div class="has-field">
+            <label class="has-label">
+              <input type="checkbox" class="has-checkbox">
+              <span>Enable dark mode</span>
+            </label>
+          </div>
+          <div class="has-field">
+            <label class="has-label" for="has-name">Your name</label>
+            <input type="text" id="has-name" class="has-input" placeholder="Type here...">
+          </div>
+          <div class="has-field">
+            <label class="has-label" for="has-email">Email (required)</label>
+            <input type="email" id="has-email" class="has-input" placeholder="Required field" required>
+          </div>
+          <div class="has-field">
+            <label class="has-label" for="has-note">Notes</label>
+            <textarea id="has-note" class="has-input" placeholder="Optional..."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">/* Checkbox toggles entire form theme */
+.form:has(:checked) {
+  background: oklch(0.15 0.02 290);
+  color: oklch(0.9 0 0);
+}
+
+/* Focused input highlights its label */
+.field:has(:focus) .label {
+  color: var(--accent);
+  translate: 0 -2px;
+}
+
+/* Empty required field shows warning */
+.field:has(:placeholder-shown:required) {
+  border-left: 3px solid oklch(0.7 0.2 25);
+}
+
+/* No JS. All :has(). */</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     10 — Popover API
+     ============================================ -->
+
+<section id="popover" class="experiment" data-feature="popover">
+  <div class="experiment__header">
+    <h2 class="experiment__title">Popover API</h2>
+    <span class="experiment__badge">Chrome 114+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Native popover behavior built into HTML.</strong> The <code>popover</code> attribute gives any element toggle-on-click, light-dismiss (close on outside click), top-layer rendering, and focus management — for free. No JavaScript required for basic popovers.</p>
+      <p>The table of contents button in the bottom-right corner of this page? That's a native popover with anchor positioning and @starting-style animations. Below are the three flavors: auto (light-dismiss), manual (explicit close), and nested.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div style="display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
+          <div>
+            <button class="pop-trigger" popovertarget="pop-auto">Auto Popover</button>
+            <div id="pop-auto" popover class="pop-content">
+              <p><strong>Auto popover</strong></p>
+              <p>Closes when you click outside or press Escape. This is the default behavior.</p>
+            </div>
+          </div>
+          <div>
+            <button class="pop-trigger" popovertarget="pop-manual">Manual Popover</button>
+            <div id="pop-manual" popover="manual" class="pop-content">
+              <p><strong>Manual popover</strong></p>
+              <p>Won't close on outside click. You need to explicitly dismiss it.</p>
+              <button class="pop-trigger" popovertarget="pop-manual" popovertargetaction="hide">Close</button>
+            </div>
+          </div>
+          <div>
+            <button class="pop-trigger" popovertarget="pop-parent">Nested Popovers</button>
+            <div id="pop-parent" popover class="pop-content">
+              <p><strong>Parent popover</strong></p>
+              <button class="pop-trigger pop-nested-trigger" popovertarget="pop-child">Open Child</button>
+              <div id="pop-child" popover class="pop-content pop-nested-content">
+                <p><strong>Child popover</strong></p>
+                <p>Nested popovers maintain a stack. Closing the parent closes children too.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">HTML + CSS</span>
+        <pre><code class="language-html">&lt;button popovertarget="my-pop"&gt;
+  Toggle
+&lt;/button&gt;
+
+&lt;div id="my-pop" popover&gt;
+  Content here. Click outside to close.
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     11 — text-wrap: balance / pretty
+     ============================================ -->
+
+<section id="text-wrap" class="experiment" data-feature="text-wrap">
+  <div class="experiment__header">
+    <h2 class="experiment__title">text-wrap: balance / pretty</h2>
+    <span class="experiment__badge">Chrome 114+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Typographic line balancing, native in the browser.</strong> <code>text-wrap: balance</code> equalizes line widths in short text blocks (headings, captions). <code>text-wrap: pretty</code> prevents orphans in longer paragraphs by adjusting line breaks.</p>
+      <p>The hero subtitle on this page uses <code>text-wrap: balance</code>. Below is a side-by-side comparison so you can see the visual difference. Resize your window to see how each algorithm handles reflow.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="tw-comparison">
+          <div class="tw-column tw-column--normal">
+            <h4 class="tw-column__label">text-wrap: auto</h4>
+            <h3 class="tw-column__heading" style="text-wrap: auto">CSS now handles beautiful text wrapping natively</h3>
+            <p class="tw-column__body" style="text-wrap: auto">This paragraph uses the default text wrapping algorithm. Notice how the last line might be very short — an orphan. The browser makes no effort to balance line lengths or avoid typographic awkwardness.</p>
+          </div>
+          <div class="tw-column tw-column--balance">
+            <h4 class="tw-column__label">text-wrap: balance</h4>
+            <h3 class="tw-column__heading" style="text-wrap: balance">CSS now handles beautiful text wrapping natively</h3>
+            <p class="tw-column__body" style="text-wrap: balance">This paragraph uses balanced text wrapping. The browser tries to equalize line widths, creating a more visually harmonious block. Best for short text — headings, captions, blockquotes (up to ~6 lines).</p>
+          </div>
+          <div class="tw-column tw-column--pretty">
+            <h4 class="tw-column__label">text-wrap: pretty</h4>
+            <h3 class="tw-column__heading" style="text-wrap: pretty">CSS now handles beautiful text wrapping natively</h3>
+            <p class="tw-column__body" style="text-wrap: pretty">This paragraph uses pretty text wrapping. The browser prevents orphans on the last line by redistributing earlier line breaks. Designed for body text and longer passages where balance would be too aggressive.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">/* Headings — equalize line widths */
+h1, h2, h3, blockquote {
+  text-wrap: balance;
+}
+
+/* Body text — prevent orphans */
+p, li {
+  text-wrap: pretty;
+}
+
+/* That's it. Two lines of CSS replace
+   what previously required JS text
+   manipulation libraries. */</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     12 — @property
+     ============================================ -->
+
+<section id="at-property" class="experiment" data-feature="at-property">
+  <div class="experiment__header">
+    <h2 class="experiment__title">@property</h2>
+    <span class="experiment__badge">Chrome 78+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Typed, animatable custom properties.</strong> <code>@property</code> lets you register CSS custom properties with a type (number, color, angle, length...), an initial value, and inheritance control. The key unlock: the browser can now interpolate custom properties in transitions and animations.</p>
+      <p>This page's entire color system — the hue shifts between sections, the animated gradients, the scroll-driven color transitions — all depend on <code>@property</code>. Without it, <code>--hue-primary</code> would be an opaque string that can't animate.</p>
+      <p>The gradient below has its angle animated via a registered <code>--gradient-angle</code> property. Use the slider to change the hue in real time — it interpolates smoothly because the browser knows it's a <code>&lt;number&gt;</code>.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="prop-gradient-box" style="--demo-hue: 270"></div>
+        <div class="prop-controls">
+          <div class="prop-control">
+            <span class="prop-control__label">--hue</span>
+            <input type="range" min="0" max="360" value="270" data-prop-slider="--demo-hue">
+            <span class="prop-control__value">270</span>
+          </div>
+        </div>
+        <div class="prop-badge">
+          <span class="prop-badge__dot"></span>
+          Gradient angle animating via @property
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">@property --gradient-angle {
+  syntax: "&lt;angle&gt;";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --hue {
+  syntax: "&lt;number&gt;";
+  inherits: true;
+  initial-value: 270;
+}
+
+.gradient {
+  background: linear-gradient(
+    var(--gradient-angle),
+    oklch(0.5 0.2 var(--hue)),
+    oklch(0.7 0.2 calc(var(--hue) + 60))
+  );
+  /* Now this animates smoothly! */
+  animation: rotate 6s linear infinite;
+  transition: --hue 0.8s ease;
+}
+
+@keyframes rotate {
+  to { --gradient-angle: 360deg; }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     13 — CSS Carousels
+     ============================================ -->
+
+<section id="carousel" class="experiment" data-feature="carousel">
+  <div class="experiment__header">
+    <h2 class="experiment__title">CSS Carousels</h2>
+    <span class="experiment__badge">Chrome 135+ (Experimental)</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Native CSS-only carousels with scroll buttons and markers.</strong> The new <code>::scroll-button()</code> and <code>::scroll-marker</code> pseudo-elements let you build fully accessible carousels without a single line of JavaScript. Built on top of scroll-snap.</p>
+      <p>This is one of the most-requested web platform features. Every carousel library — Swiper, Slick, Embla — exists because CSS couldn't do this natively. Now it can. The browser handles keyboard navigation, scroll physics, and accessibility for free.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="carousel">
+          <div class="carousel__track">
+            <div class="carousel__item" style="--item-hue: 260">
+              <span class="carousel__item-number">01</span>
+              <span class="carousel__item-label">Scroll Snap</span>
+            </div>
+            <div class="carousel__item" style="--item-hue: 200">
+              <span class="carousel__item-number">02</span>
+              <span class="carousel__item-label">Buttons</span>
+            </div>
+            <div class="carousel__item" style="--item-hue: 150">
+              <span class="carousel__item-number">03</span>
+              <span class="carousel__item-label">Markers</span>
+            </div>
+            <div class="carousel__item" style="--item-hue: 30">
+              <span class="carousel__item-number">04</span>
+              <span class="carousel__item-label">No JS</span>
+            </div>
+            <div class="carousel__item" style="--item-hue: 330">
+              <span class="carousel__item-number">05</span>
+              <span class="carousel__item-label">A11y Free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.carousel {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  /* Native scroll buttons */
+  &::scroll-button(inline-start) {
+    content: "←";
+  }
+  &::scroll-button(inline-end) {
+    content: "→";
+  }
+}
+
+/* Pagination dots */
+.carousel__item::scroll-marker {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-muted);
+}
+
+.carousel__item::scroll-marker:target-current {
+  background: var(--accent);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     14 — Style Container Queries
+     ============================================ -->
+
+<section id="style-queries" class="experiment" data-feature="style-queries">
+  <div class="experiment__header">
+    <h2 class="experiment__title">Style Container Queries</h2>
+    <span class="experiment__badge">Chrome 111+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Query the computed style of a container, not just its size.</strong> <code>@container style(--theme: dark)</code> lets child components react to custom property values on their parent. This creates a pure-CSS theming system where toggling a single variable cascades through the entire component tree.</p>
+      <p>Click the toggle below. A single <code>--theme</code> custom property changes on the parent, and the children restyle themselves via style queries.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="sq-parent" style="--theme: light">
+          <button class="sq-toggle" onclick="const p=this.closest('.sq-parent'); p.style.setProperty('--theme', p.style.getPropertyValue('--theme')==='light'?'dark':'light')">Toggle --theme</button>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-top: var(--space-md);">
+            <div class="sq-card">
+              <h4>Card A</h4>
+              <p>Responds to parent's --theme value via @container style()</p>
+            </div>
+            <div class="sq-card">
+              <h4>Card B</h4>
+              <p>Same CSS class, appearance driven by container style query</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.parent {
+  container-type: normal;
+  --theme: light;
+}
+
+/* Default: light theme */
+.card {
+  background: oklch(0.95 0 0);
+  color: oklch(0.2 0 0);
+}
+
+/* Respond to style value */
+@container style(--theme: dark) {
+  .card {
+    background: oklch(0.2 0.03 240);
+    color: oklch(0.9 0 0);
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     15 — field-sizing
+     ============================================ -->
+
+<section id="field-sizing" class="experiment" data-feature="field-sizing">
+  <div class="experiment__header">
+    <h2 class="experiment__title">field-sizing</h2>
+    <span class="experiment__badge">Chrome 120+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Form inputs that grow with their content.</strong> <code>field-sizing: content</code> makes textareas, inputs, and selects automatically resize to fit their content. No JavaScript auto-resize hacks, no hidden measurement divs.</p>
+      <p>Type in the fields below. The left one grows with your content. The right one stays fixed. One CSS property replaces an entire category of JavaScript workarounds.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="fs-demo">
+          <div>
+            <label class="fs-label">field-sizing: content</label>
+            <textarea class="fs-field fs-field--auto" placeholder="Type here and watch me grow..." rows="1"></textarea>
+          </div>
+          <div>
+            <label class="fs-label">field-sizing: fixed (default)</label>
+            <textarea class="fs-field fs-field--fixed" placeholder="I stay the same size..." rows="1"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">textarea {
+  field-sizing: content;
+  min-height: 2lh; /* minimum 2 lines */
+  max-height: 10lh; /* cap at 10 lines */
+}
+
+/* Also works on inputs and selects */
+input {
+  field-sizing: content;
+  min-width: 10ch;
+}
+
+/* One line. That's it. No JS. */</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     16 — Masonry Layout
+     ============================================ -->
+
+<section id="masonry" class="experiment" data-feature="masonry">
+  <div class="experiment__header">
+    <h2 class="experiment__title">Masonry Layout</h2>
+    <span class="experiment__badge">Experimental (Flag Required)</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Pinterest-style layouts, native in CSS Grid.</strong> <code>grid-template-rows: masonry</code> lets items fill vertical gaps naturally without fixed row heights. No Masonry.js, no Isotope, no column-count hacks.</p>
+      <p>This is still experimental and requires a browser flag (<code>chrome://flags/#enable-experimental-web-platform-features</code>). But the spec is actively developed and targeted for shipping. The future of gallery layouts is CSS-only.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="masonry-grid">
+          <div class="masonry-item" style="--h: 120px">01</div>
+          <div class="masonry-item" style="--h: 200px">02</div>
+          <div class="masonry-item" style="--h: 150px">03</div>
+          <div class="masonry-item" style="--h: 180px">04</div>
+          <div class="masonry-item" style="--h: 130px">05</div>
+          <div class="masonry-item" style="--h: 220px">06</div>
+          <div class="masonry-item" style="--h: 160px">07</div>
+          <div class="masonry-item" style="--h: 140px">08</div>
+          <div class="masonry-item" style="--h: 190px">09</div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.gallery {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-rows: masonry;
+  gap: 1rem;
+}
+
+/* That's the entire implementation.
+   Items fill gaps naturally based on
+   available space. No JS library. */</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     17 — Sibling Functions
+     ============================================ -->
+
+<section id="sibling-functions" class="experiment" data-feature="sibling-functions">
+  <div class="experiment__header">
+    <h2 class="experiment__title">Sibling Functions</h2>
+    <span class="experiment__badge">Chrome 132+</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>CSS functions that know an element's position among siblings.</strong> <code>sibling-index()</code> returns the 1-based index of an element within its parent. <code>sibling-count()</code> returns the total number of siblings. Combined with <code>calc()</code>, you can create data-driven visual patterns without any data attributes or JavaScript.</p>
+      <p>The rainbow staircase below uses <code>sibling-index()</code> for staggered heights and animation delays, and <code>sibling-count()</code> to distribute hues evenly across the full color wheel.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div class="sibling-list">
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+          <div class="sibling-item"></div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">.item {
+  /* Distribute hues evenly */
+  --hue: calc(
+    360 / sibling-count() * sibling-index()
+  );
+  background: oklch(0.7 0.18 var(--hue));
+
+  /* Staggered height */
+  height: calc(
+    40px + sibling-index() * 12px
+  );
+
+  /* Staggered animation delay */
+  animation-delay: calc(
+    sibling-index() * 0.05s
+  );
+}
+
+/* No nth-child(), no data attributes,
+   no JavaScript counters. */</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     18 — Customizable <select>
+     ============================================ -->
+
+<section id="custom-select" class="experiment" data-feature="custom-select">
+  <div class="experiment__header">
+    <h2 class="experiment__title">Customizable &lt;select&gt;</h2>
+    <span class="experiment__badge">Chrome 134+ (Experimental)</span>
+  </div>
+
+  <div class="experiment__content">
+    <div class="experiment__explainer">
+      <p><strong>Finally: fully styleable native select elements.</strong> <code>appearance: base-select</code> opts into the new customizable select, letting you style the dropdown, options, selected state, and picker icon with regular CSS while keeping full native semantics, keyboard navigation, and accessibility.</p>
+      <p>No more fake selects built from divs. No more aria-listbox hacks. The <code>::picker(select)</code> pseudo-element targets the dropdown, and individual <code>&lt;option&gt;</code> elements can contain rich HTML content.</p>
+    </div>
+
+    <div class="experiment__playground">
+      <div class="experiment__demo">
+        <div style="display: grid; gap: var(--space-lg); max-width: 300px; margin: 0 auto;">
+          <div>
+            <label class="cs-label">Choose a feature</label>
+            <select class="cs-select">
+              <option value="scroll">Scroll-Driven Animations</option>
+              <option value="view">View Transitions</option>
+              <option value="anchor">Anchor Positioning</option>
+              <option value="popover">Popover API</option>
+              <option value="container">Container Queries</option>
+            </select>
+          </div>
+          <div>
+            <label class="cs-label">Default &lt;select&gt; (for comparison)</label>
+            <select style="width: 100%; padding: 0.5rem;">
+              <option>Scroll-Driven Animations</option>
+              <option>View Transitions</option>
+              <option>Anchor Positioning</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment__code">
+        <span class="experiment__code-label">CSS</span>
+        <pre><code class="language-css">select {
+  appearance: base-select;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+/* Style the dropdown */
+select::picker(select) {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+/* Style individual options */
+option {
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+option:checked {
+  background: var(--accent-dim);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================
+     Footer
+     ============================================ -->
+
+<footer style="padding: var(--space-2xl) var(--section-padding-inline); text-align: center; color: var(--fg-subtle); font-size: 0.85rem;">
+  <p style="text-wrap: balance; max-width: 50ch; margin-inline: auto;">
+    Built with the features it documents. No build step, no framework, no JavaScript libraries.
+    Just HTML, CSS, and the modern web platform.
+  </p>
+  <p style="margin-top: var(--space-md); font-family: var(--font-mono); font-size: 0.75rem;">
+    2026 — View source. It's all there.
+  </p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+/* ============================================
+   05 — oklch + color-mix() + Relative Color
+   Color palette generator with hue wheel.
+   Section background shifts through oklch space.
+   ============================================ */
+
+@scope ([data-feature="oklch-color"]) {
+  :scope {
+    --hue-primary: 150;
+    --hue-accent: 180;
+  }
+
+  /* Hue wheel using conic gradient in oklch */
+  .color-wheel {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: conic-gradient(
+      in oklch,
+      oklch(0.7 0.18 0),
+      oklch(0.7 0.18 60),
+      oklch(0.7 0.18 120),
+      oklch(0.7 0.18 180),
+      oklch(0.7 0.18 240),
+      oklch(0.7 0.18 300),
+      oklch(0.7 0.18 360)
+    );
+    margin: var(--space-lg) auto;
+    position: relative;
+
+    /* Inner cutout */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 30%;
+      border-radius: 50%;
+      background: var(--bg-surface);
+    }
+  }
+
+  /* Color swatches — derived via color-mix() */
+  .color-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--space-sm);
+    margin-block-start: var(--space-lg);
+  }
+
+  .color-swatch {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    display: grid;
+    place-items: end start;
+    padding: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: oklch(0.2 0 0);
+    transition: scale 0.2s var(--ease-spring);
+
+    &:hover {
+      scale: 1.08;
+    }
+  }
+
+  /* Base hue */
+  .color-swatch--base {
+    background: oklch(0.7 0.18 200);
+  }
+
+  /* Tints via color-mix */
+  .color-swatch--tint-1 {
+    background: color-mix(in oklch, oklch(0.7 0.18 200) 80%, white);
+  }
+  .color-swatch--tint-2 {
+    background: color-mix(in oklch, oklch(0.7 0.18 200) 50%, white);
+  }
+
+  /* Shades via color-mix */
+  .color-swatch--shade-1 {
+    background: color-mix(in oklch, oklch(0.7 0.18 200) 80%, black);
+    color: oklch(0.9 0 0);
+  }
+  .color-swatch--shade-2 {
+    background: color-mix(in oklch, oklch(0.7 0.18 200) 50%, black);
+    color: oklch(0.9 0 0);
+  }
+
+  /* Complement via relative color */
+  .color-swatch--complement {
+    background: oklch(from oklch(0.7 0.18 200) l c calc(h + 180));
+  }
+
+  /* Analogous */
+  .color-swatch--analogous-1 {
+    background: oklch(from oklch(0.7 0.18 200) l c calc(h + 30));
+  }
+  .color-swatch--analogous-2 {
+    background: oklch(from oklch(0.7 0.18 200) l c calc(h - 30));
+  }
+
+  /* Split-complementary */
+  .color-swatch--split-1 {
+    background: oklch(from oklch(0.7 0.18 200) l c calc(h + 150));
+  }
+  .color-swatch--split-2 {
+    background: oklch(from oklch(0.7 0.18 200) l c calc(h + 210));
+  }
+
+  /* Lightness scale */
+  .lightness-scale {
+    display: flex;
+    gap: 2px;
+    margin-block-start: var(--space-lg);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .lightness-step {
+    flex: 1;
+    height: 48px;
+  }
+
+  /* Generate 10 lightness steps */
+  .lightness-step:nth-child(1)  { background: oklch(0.1 0.18 200); }
+  .lightness-step:nth-child(2)  { background: oklch(0.2 0.18 200); }
+  .lightness-step:nth-child(3)  { background: oklch(0.3 0.18 200); }
+  .lightness-step:nth-child(4)  { background: oklch(0.4 0.18 200); }
+  .lightness-step:nth-child(5)  { background: oklch(0.5 0.18 200); }
+  .lightness-step:nth-child(6)  { background: oklch(0.6 0.18 200); }
+  .lightness-step:nth-child(7)  { background: oklch(0.7 0.18 200); }
+  .lightness-step:nth-child(8)  { background: oklch(0.8 0.18 200); }
+  .lightness-step:nth-child(9)  { background: oklch(0.9 0.18 200); }
+  .lightness-step:nth-child(10) { background: oklch(0.95 0.18 200); }
+}
